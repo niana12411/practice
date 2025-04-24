@@ -16,6 +16,7 @@ class OpenWeatherGateway
     // 查詢天氣API
     public function getCityWeatherApi(string $country, string $city):array
     {
+        //TODO: redis
         $request = http_build_query([
             'units' => 'metric',
             'q' => $city.','.$country,
@@ -30,6 +31,7 @@ class OpenWeatherGateway
         ->asJsonResponse(true)
         ->get();
 
+        //TODO:紀錄CURL API Log
         // dump($res_curl);
 
         if(!isset($res_curl)){

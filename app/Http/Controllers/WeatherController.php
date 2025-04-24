@@ -20,7 +20,8 @@ class WeatherController extends Controller
         $this->weatherService = $weatherService;
     }
     public function getIndex(Weather\IndexValidator $request)
-    {        
+    {
+        //TODO: 驗證國家與城市        
         // try {
         $res = $this->weatherService->getWeatherApi($request);
         $string = '今日天氣'.$res['weather_description'].'，氣溫 '.$res['temp_min'].' ~ '.$res['temp_max'].' 攝氏度。';
