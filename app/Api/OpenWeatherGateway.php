@@ -13,18 +13,57 @@ use Illuminate\Support\MessageBag;
 
 class OpenWeatherGateway
 {
-    // 查詢天氣API
+    protected array $weatherConfig;
+    protected string $appId;
+    protected string $apiUrl;
+    protected string $lang;
+
+    public function __construct()
+    {
+        $this->weatherConfig = config('weather.openweathermap');
+    }
+
+
+    /**
+     * 驗證配置
+     * 
+     * @throws OpenweathermapException
+     */
+    protected function validateConfig(): void
+    {
+        $this->appId = $this->weatherConfig['appid'];
+        $this->apiUrl = $this->weatherConfig['api_url'];
+        $this->lang = $this->weatherConfig['lang'];
+
+        if(empty($this->appId)) {
+            throw new OpenweathermapException(OpenweathermapException::SETTING_KEY_NOT_FOUND);
+        }
+        if(empty($this->apiUrl)) {
+            throw new OpenweathermapException(OpenweathermapException::SETTING_KEY_NOT_FOUND);
+        }
+    }
+
+    /**
+     * 查詢天氣API V2.5
+     * 
+     * @param string $country
+     * @param string $city
+     * @return array
+     * @throws OpenweathermapException
+     */
     public function getCityWeatherApi(string $country, string $city):array
     {
         //TODO: redis
+
+        $this->validateConfig();
         $request = http_build_query([
             'units' => 'metric',
             'q' => $city.','.$country,
-            'appid' => config('weather.openweathermap.appid'),
-            'lang' => config('weather.openweathermap.lang'),
+            'appid' => $this->appId,
+            'lang' => $this->lang
         ]);
 
-        $res_curl = Curl::to(config('weather.openweathermap.api_url').'?'.$request)
+        $res_curl = Curl::to($this->apiUrl.'2.5/weather?'.$request)
         ->withHeader('Content-Type: application/json')
         ->withHeader('Accept: application/json')
         ->returnResponseArray()

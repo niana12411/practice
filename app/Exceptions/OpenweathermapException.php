@@ -11,6 +11,7 @@ class OpenweathermapException extends BaseException
     const HTTP_CODE_ERROR = 3;
     const RD_CODE_ERROR = 4;
     const RESPONSE_CODE_ERROR = 5;
+    const SETTING_KEY_NOT_FOUND = 6;
 
     protected function getClientMessage(): array
     {
@@ -20,6 +21,7 @@ class OpenweathermapException extends BaseException
             self::HTTP_CODE_ERROR => '查詢異常',
             self::RD_CODE_ERROR => '查詢異常',
             self::RESPONSE_CODE_ERROR => '查無對應訊息',
+            self::SETTING_KEY_NOT_FOUND => '未設定參數',
         ];
     }
 
@@ -34,6 +36,7 @@ class OpenweathermapException extends BaseException
             self::HTTP_CODE_ERROR => 'http code 異常',
             self::RD_CODE_ERROR => 'rd code 異常',
             self::RESPONSE_CODE_ERROR => '查無對應訊息',
+            self::SETTING_KEY_NOT_FOUND => '未設定參數',
         ];
     }
 }
