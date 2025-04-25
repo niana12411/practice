@@ -23,7 +23,7 @@ class WeatherController extends Controller
     {
         //TODO: 驗證國家與城市        
         // try {
-        $res = $this->weatherService->getWeatherApi($request);
+        $res = $this->weatherService->getWeatherData($request);
         $string = '今日天氣'.$res['weather_description'].'，氣溫 '.$res['temp_min'].' ~ '.$res['temp_max'].' 攝氏度。';
 
         return response()->json($string);

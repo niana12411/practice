@@ -35,10 +35,7 @@ class OpenWeatherGateway
         $this->apiUrl = $this->weatherConfig['api_url'];
         $this->lang = $this->weatherConfig['lang'];
 
-        if(empty($this->appId)) {
-            throw new OpenweathermapException(OpenweathermapException::SETTING_KEY_NOT_FOUND);
-        }
-        if(empty($this->apiUrl)) {
+        if(empty($this->appId) || empty($this->apiUrl)) {
             throw new OpenweathermapException(OpenweathermapException::SETTING_KEY_NOT_FOUND);
         }
     }
@@ -53,8 +50,6 @@ class OpenWeatherGateway
      */
     public function getCityWeatherApi(string $country, string $city):array
     {
-        //TODO: redis
-
         $this->validateConfig();
         $request = http_build_query([
             'units' => 'metric',
